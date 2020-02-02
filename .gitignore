@@ -2,6 +2,9 @@
 lfw/
 dogImages/
 
-# Exlude Jupyter checkpoints
+# Exclude Jupyter checkpoints
 .ipynb_checkpoints
 */.ipynb_checkpoints/*
+
+# Exclude model weights
+model_scratch.pt
