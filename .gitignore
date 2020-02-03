@@ -9,3 +9,4 @@ dogImages/
 # Exclude model weights
 model_scratch.pt
 model_transfer.pt
+model_transfer_resnext50.pt
