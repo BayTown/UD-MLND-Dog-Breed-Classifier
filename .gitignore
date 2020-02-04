@@ -10,3 +10,5 @@ dogImages/
 model_scratch.pt
 model_transfer.pt
 model_transfer_resnext50.pt
+complete_model_transfer_resnext101_new_act_acc82.pth
+model_transfer_resnext101_new_act.pt
