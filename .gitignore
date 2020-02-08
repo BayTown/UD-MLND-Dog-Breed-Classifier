@@ -14,3 +14,7 @@ complete_model_transfer_resnext101_new_act_acc82.pth
 model_transfer_resnext101_new_act.pt
 complete_model_transfer_resnext101.pth
 model_transfer_resnext101.pt
+
+# Exclude unnecessary webapp files
+webapp/.vscode
+webapp/__pycache__
