@@ -149,7 +149,7 @@ def predict_breed_transfer(image_bytes):
                                          transforms.ToTensor(),              # Convert the image to the PyTorch Tensor data type
                                          normalization])
     
-    # If Cuda-enabled GPU is available, use it. If not, use CPU
+    # Set device to CPU
     device = torch.device("cpu")
     # Put model to evaluation mode
     model.eval()

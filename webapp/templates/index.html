@@ -1,82 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <title>Dog Breed Classifier</title>
-        <meta charset="utf-8">
-        <meta name="viewport"  content="width=device-width, initial-scale=1">
-        <!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-        <!-- JavaScript -->
-        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+{% extends 'main_layout.html' %}
 
-    </head>
-
-    <body>
-        <header>
-            <div class="collapse bg-dark" id="navbarHeader">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-sm-8 col-md-7 py-4">
-                            <h4 class="text-white">About</h4>
-                            <p class="text-muted">Hello, I'm Andreas Häuser. This is a WebApp with an integrated Dog Breed Classifier using image classification, witch is part of machine learning, to predict dog breeds.
-                                                  To go a little bit deeper, this is realized with a pretrained ResNeXt-101 Model made with Pytorch and powered py Python.</p>
-                        </div>
-                        <div class="col-sm-4 offset-md-1 py-4">
-                            <h4 class="text-white">Contact</h4>
-                            <ul class="list-unstyled">
-                                <li><a href="https://github.com/BayTown" class="text-white">Follow on GitHub</a></li>
-                                <li><a href="https://www.linkedin.com/in/andreas-häuser-a9834315a" class="text-white">Follow me on LinkedIn</a></li>
-                            </ul>
-                        </div>
+{% block content %}
+    <section class="jumbotron text-center bg-white">
+        <div class="container">
+            <h1>Predicting Breeds with Machine Learning</h1>
+            <p class="lead text-muted">If you have doubts about the breed of your dog this WebApp can helped you out.</p>
+            <p class="lead text-muted">All you have to do is upload a picture of your dog, then the 3 most likely dog ​​breeds will be displayed.</p>
+            <form method ='post' enctype=multipart/form-data>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroupFileAddon01">Choose file</span>
+                    </div>
+                    <div class="custom-file">
+                        <input type="file" name="file" class="custom-file-input" id="FormControlSelectFile" aria-describedby="inputGroupFileAddon01">
+                        <label class="custom-file-label" for="FormControlSelectFile">Choose image of your dog</label>
                     </div>
                 </div>
-            </div>
-            <div class="navbar navbar-dark bg-dark shadow-sm">
-                <div class="container d-flex justify-content-between">
-                    <a href="#" class="navbar-brand d-flex align-items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" aria-hidden="true" class="mr-2" viewBox="0 0 24 24" focusable="false"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-                        <strong>Dog Breed Classifier</strong>
-                    </a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
+                <div class="input-group">
+                    <input type="submit" class="btn btn-primary btn-lg btn-block" value="upload" id="FormControlUploadImage">
                 </div>
-            </div>
-        </header>
-    </body>
-
-    <main role="main">
-        <section class="jumbotron text-center bg-white">
-            <div class="container">
-                <h1>Predicting Breeds with Machine Learning</h1>
-                <p class="lead text-muted">If you have doubts about the breed of your dog this WebApp can helped you out.</p>
-                <p class="lead text-muted">All you have to do is upload a picture of your dog, then the 3 most likely dog ​​breeds will be displayed.</p>
-                <form method ='post' enctype=multipart/form-data>
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="inputGroupFileAddon01">Choose file</span>
-                        </div>
-                        <div class="custom-file">
-                            <input type="file" name="file" class="custom-file-input" id="FormControlSelectFile" aria-describedby="inputGroupFileAddon01">
-                            <label class="custom-file-label" for="FormControlSelectFile">Choose image of your dog</label>
-                        </div>
-                    </div>
-                    <div class="input-group">
-                        <input type="submit" class="btn btn-primary btn-lg btn-block" value="upload" id="FormControlUploadImage">
-                    </div>
-                </form>
-            </div>
-        </section>
-    </main>
-
-    <footer class="text-muted bg-light">
-        <div class="container text-secondary">
-            <p>Dog Breed Classifier &copy; 2020 Andreas Häuser</p>
-            <p>No data, i.e. traffic data, personal data or images, will be saved.</p>
-            <p>Please visit me on <a href="https://github.com/BayTown">GitHub</a> and on <a href="https://www.linkedin.com/in/andreas-häuser-a9834315a">LinkedIn</a></p>
+            </form>
         </div>
-    </footer>
-</html>
+    </section>
+{% endblock%}

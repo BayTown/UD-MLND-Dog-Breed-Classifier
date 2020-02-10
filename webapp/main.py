@@ -14,17 +14,22 @@ def index():
 
         if request.files is None:
             print('Upload without a selected file')
-            return
+            return render_template('index.html')
 
-        print(request.files)
         if 'file' not in request.files:
             print('file not uploaded')
-            return
+            return render_template('index.html')
 
         file = request.files['file']
         image = file.read()
+
+        if image == b'':
+            print('no file selected to upload')
+            return render_template('index.html')
+
         dog_detected = False
         human_detected = False
+
 
         # Detect dog or human
         if dog_detector(image):
@@ -51,4 +56,4 @@ def index():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=8080, debug=True)
