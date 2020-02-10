@@ -1,0 +1,17 @@
+{% extends 'main_layout.html' %}
+
+{% block content %}
+    <section class="container text-center">
+        <div class="container-fluid">
+            <div class="jumbotron bg-white">
+                <div class="alert alert-warning" role="alert">
+                    I'm so sorry. No dog and no human was recognized.
+                </div>
+                <p class="lead"><a href="{{ url_for('index') }}">Please try again</a></p>
+            </div>
+        </div>
+        <div class="container">
+            <a href="{{ url_for('index') }}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Home</a>
+        </div>
+    </section>
+{% endblock%}

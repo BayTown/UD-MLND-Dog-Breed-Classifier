@@ -6,8 +6,9 @@ from PIL import Image
 import torchvision.transforms as transforms
 from torch.autograd import Variable
 import cv2
+import numpy as np
 
-def face_detector(image_bytes):
+def face_detector(img_path):
     '''
     Using a CascadeClassifier from cv2 to check whether or not a face of a person is present in an image.
     Args:
@@ -17,14 +18,13 @@ def face_detector(image_bytes):
     '''
     face_cascade_ext = cv2.CascadeClassifier('model/haarcascade_frontalface_alt2.xml')
 
-    img = Image.open(io.BytesIO(image_bytes)).convert('RGB')
-    img = cv2.imread(img)
-    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    img = cv2.imread(img_path)
+    gray = cv2.cvtColor(np.array(img), cv2.COLOR_BGR2GRAY)
     faces = face_cascade_ext.detectMultiScale(gray)
 
     return len(faces) > 0
 
-def VGG16_predict(image_bytes):
+def VGG16_predict(img_path):
     '''
     Use pre-trained VGG-16 model to obtain index corresponding to 
     predicted ImageNet class for image at specified path
@@ -51,7 +51,7 @@ def VGG16_predict(image_bytes):
                                     transforms.Normalize(mean=[0.485, 0.456, 0.406], # Normalizing the image with specific mean and standard deviation
                                                          std=[0.229, 0.224, 0.225])])
     # Load image
-    img = Image.open(io.BytesIO(image_bytes)).convert('RGB')
+    img = Image.open(img_path)
     # Transform image
     img = transform(img)
     # Change Tensor to a one-dimensional one
@@ -67,7 +67,7 @@ def VGG16_predict(image_bytes):
     
     return index.item() # predicted class index
 
-def dog_detector(image_bytes):
+def dog_detector(img_path):
     '''
     This function uses a pretrained VGG16-model to make a prediction if a dog in an image is present or not
     
@@ -83,7 +83,7 @@ def dog_detector(image_bytes):
     last_idx_dict = 268
     
     # Get Integer value of the prediction
-    out = VGG16_predict(image_bytes)
+    out = VGG16_predict(img_path)
     
     # True if returned index of out is in the range of the dogs-labels in the dictionary. If not allocation is false.
     dog_present = True if out >= first_idx_dict and out <= last_idx_dict else False
@@ -111,13 +111,11 @@ def get_model():
 
     # load the trained weights
     model_transfer.load_state_dict(torch.load('model/model_transfer_resnext101.pt'))
-    # Put the model to evaluation mode
-    model_transfer.eval()
 
     return model_transfer
 
 
-def predict_breed_transfer(image_bytes):
+def predict_breed_transfer(img_path):
     '''
     A function that takes a path to an image as input
     and returns top-k predictions of the dog breed that is predicted by the model.
@@ -155,7 +153,7 @@ def predict_breed_transfer(image_bytes):
     model.eval()
     
     # Load image
-    img = Image.open(io.BytesIO(image_bytes)).convert('RGB')
+    img = Image.open(img_path)
     # Transform image
     img = transformation(img).float()
     # Change Tensor to a one-dimensional one

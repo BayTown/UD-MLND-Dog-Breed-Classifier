@@ -1,11 +1,50 @@
 {% extends 'main_layout.html' %}
 
 {% block content %}
-    <section class="jumbotron text-center">
+    <section class="container text-center">
+        <div class="container-fluid">
+            <div class="jumbotron bg-white">
+                <h1>This is the prediction of the dog breed</h1>
+            </div>
+        </div>
+        <div class="container-md">
+            <p class="lead">Hello, you uploaded a image that contains a <span class="badge badge-primary"><strong>{{ human_dog }}</strong></span></p>
+            <p class="lead">Here you can see the corresponding predictions of the dog breed</p>
+        </div>
+        <div class="container-md">
+            <div class="row">
+                <div class="col border rounded">
+                    <img src="{{ img_path }}" class="rounded" alt="your dog">
+                </div>
+                <div class="col">
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <div class="text-left">{{ top1_label }}</div>
+                            <div class="progress" style="height: 30px;">
+                                <div class="progress-bar bg-success" role="progressbar" aria-valuenow="{{ top1_pred }}" aria-valuemin="0" aria-valuemax="100" style="width:{{ top1_pred }}%;"></div>
+                            </div>
+                            <div class="text-left">{{ top1_pred }}%</div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="text-left">{{ top2_label }}</div>
+                            <div class="progress" style="height: 30px;">
+                                <div class="progress-bar bg-secondary" role="progressbar" aria-valuenow="{{ top2_pred }}" aria-valuemin="0" aria-valuemax="100" style="width:{{ top2_pred }}%;"></div>
+                            </div>
+                            <div class="text-left">{{ top2_pred }}%</div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="text-left">{{ top3_label }}</div>
+                            <div class="progress" style="height: 30px;">
+                                <div class="progress-bar bg-secondary" role="progressbar" aria-valuenow="{{ top3_pred }}" aria-valuemin="0" aria-valuemax="100" style="width:{{ top3_pred }}%;"></div>
+                            </div>
+                            <div class="text-left">{{ top3_pred }}%</div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
         <div class="container">
-            <h1>This is the prediction of the dog breed</h1>
-            
-            
+            <a href="{{ url_for('index') }}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Home</a>
         </div>
     </section>
 {% endblock%}

@@ -5,21 +5,34 @@
         <div class="container">
             <h1>Predicting Breeds with Machine Learning</h1>
             <p class="lead text-muted">If you have doubts about the breed of your dog this WebApp can helped you out.</p>
-            <p class="lead text-muted">All you have to do is upload a picture of your dog, then the 3 most likely dog ​​breeds will be displayed.</p>
+            <p class="lead text-muted">AYou can upload a picture of your dog or of yourself, then the 3 most likely dog ​​breeds will be displayed.</p>
             <form method ='post' enctype=multipart/form-data>
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="inputGroupFileAddon01">Choose file</span>
-                    </div>
-                    <div class="custom-file">
-                        <input type="file" name="file" class="custom-file-input" id="FormControlSelectFile" aria-describedby="inputGroupFileAddon01">
-                        <label class="custom-file-label" for="FormControlSelectFile">Choose image of your dog</label>
+                <div class="form-group row">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
+                        </div>
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" name="file" id="inputGroupFile01" aria-describedby="inputGroupFileAddon01">
+                            <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                        </div>
                     </div>
                 </div>
-                <div class="input-group">
-                    <input type="submit" class="btn btn-primary btn-lg btn-block" value="upload" id="FormControlUploadImage">
+                <div class="form-group row">
+                    <div class="input-group mb-3">
+                        <input type="submit" class="btn btn-primary btn-lg btn-block" value="upload">
+                    </div>
                 </div>
             </form>
         </div>
     </section>
+    <script>
+        $('#inputGroupFile01').on('change',function(){
+            //get the file name
+            var fileName = $(this).val();
+            var cleanFileName = fileName.replace('C:\\fakepath\\', " ");
+            //replace the "Choose a file" label
+            $(this).next('.custom-file-label').html(cleanFileName);
+        })
+    </script>
 {% endblock%}
