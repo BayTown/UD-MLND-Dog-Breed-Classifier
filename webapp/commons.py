@@ -16,13 +16,18 @@ def face_detector(img_path):
     Returns:
         Return true, if a face of a person is present on the image. Else return false
     '''
+    # Load a cv2 CascadeClassifier
     face_cascade_ext = cv2.CascadeClassifier('model/haarcascade_frontalface_alt2.xml')
-
+    # Load the image from path
     img = cv2.imread(img_path)
+    # Convert to gray
     gray = cv2.cvtColor(np.array(img), cv2.COLOR_BGR2GRAY)
+    # detect if face is present in the image
     faces = face_cascade_ext.detectMultiScale(gray)
-
+    
+    # returns true if length of faces is greater than zero
     return len(faces) > 0
+
 
 def VGG16_predict(img_path):
     '''
@@ -67,6 +72,7 @@ def VGG16_predict(img_path):
     
     return index.item() # predicted class index
 
+
 def dog_detector(img_path):
     '''
     This function uses a pretrained VGG16-model to make a prediction if a dog in an image is present or not
@@ -92,6 +98,14 @@ def dog_detector(img_path):
 
 
 def get_model():
+    '''
+    This function load a pretrained model, add new classifier layers, load the weights to the model and return this model
+        
+    Args:
+        None
+    Returns:
+        Returns the pretrained model with new classifier layers and weights
+    '''
     # Load the pretrained ResNeXt101-Model from pytorch
     model_transfer = models.resnext101_32x8d(pretrained=True)
     # Add a Dropout layer

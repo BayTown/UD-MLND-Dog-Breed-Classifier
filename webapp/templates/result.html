@@ -1,17 +1,17 @@
 {% extends 'main_layout.html' %}
 
 {% block content %}
-    <section class="container text-center">
-        <div class="container-fluid">
-            <div class="jumbotron bg-white">
+    <section class="jumbotron text-center bg-white">
+        <div class="container-fluid pb-3">
+            <div class="container">
                 <h1>This is the prediction of the dog breed</h1>
             </div>
         </div>
-        <div class="container-md">
-            <p class="lead">Hello, you uploaded a image that contains a <span class="badge badge-primary"><strong>{{ human_dog }}</strong></span></p>
+        <div class="container">
+            <h3>Hello, you uploaded a image that contains a <span class="badge badge-primary">{{ human_dog }}</span></h3>
             <p class="lead">Here you can see the corresponding predictions of the dog breed</p>
         </div>
-        <div class="container-md">
+        <div class="container">
             <div class="row">
                 <div class="col border rounded">
                     <img src="{{ img_path }}" class="rounded" alt="your dog">
@@ -43,8 +43,8 @@
                 </div>
             </div>
         </div>
-        <div class="container">
-            <a href="{{ url_for('index') }}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Home</a>
+        <div class="container pt-5">
+            <a href="{{ url_for('index') }}" class="btn btn-outline-secondary btn-lg btn-block" role="button" aria-pressed="true">Back to Home</a>
         </div>
     </section>
 {% endblock%}

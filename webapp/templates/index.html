@@ -5,8 +5,8 @@
         <div class="container">
             <h1>Predicting Breeds with Machine Learning</h1>
             <p class="lead text-muted">If you have doubts about the breed of your dog this WebApp can helped you out.</p>
-            <p class="lead text-muted">AYou can upload a picture of your dog or of yourself, then the 3 most likely dog ​​breeds will be displayed.</p>
-            <form method ='post' enctype=multipart/form-data>
+            <p class="lead text-muted">Here you can upload a picture of your dog or of yourself, then the 3 most likely dog ​​breeds will be displayed.</p>
+            <form method='post' enctype=multipart/form-data>
                 <div class="form-group row">
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
@@ -20,10 +20,15 @@
                 </div>
                 <div class="form-group row">
                     <div class="input-group mb-3">
-                        <input type="submit" class="btn btn-primary btn-lg btn-block" value="upload">
+                        <button type="submit" id="btnUpload" class="btn btn-primary btn-lg btn-block">Upload</button>
                     </div>
                 </div>
             </form>
+            <div class="d-flex justify-content-center">
+                <div class="spinner-border text-primary" role="status" id="spinnerUpload">
+                  <span class="sr-only">Loading...</span>
+                </div>
+              </div>
         </div>
     </section>
     <script>
@@ -34,5 +39,23 @@
             //replace the "Choose a file" label
             $(this).next('.custom-file-label').html(cleanFileName);
         })
+    </script>
+    <script>
+        function TurnOffSpinner()
+        { 
+            setTimeout(function() { $('#spinnerUpload').hide(); }, 3000)
+        };
+        $(document).ready(function()
+        {
+            $("#spinnerUpload").hide();
+
+            $("#btnUpload").click(function()
+            {
+                // Show spinner wheel
+                $("#spinnerUpload").show();
+
+                TurnOffSpinner();
+            });
+        });
     </script>
 {% endblock%}

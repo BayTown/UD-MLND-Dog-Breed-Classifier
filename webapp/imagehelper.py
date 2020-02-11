@@ -1,11 +1,16 @@
 from PIL import Image
 
-def fix_orientation(filename):
+def fix_orientation(img_path):
     '''
     EXIF tags cause images that were taken via a smartphone to appear rotated since they are landscape images w/ EXIF orientation tags
-    This function helps to find the right rotation for these images and resize at the and the image
+    This function helps to find the right rotation for these images and also resize the image
+    Args:
+        img_path: path to an image
+    Returns:
+        Returns correct rotated and resized image
     '''
-    img = Image.open(filename)
+    
+    img = Image.open(img_path)
     if hasattr(img, '_getexif'):
         exifdata = img._getexif()
         try:
@@ -39,4 +44,4 @@ def fix_orientation(filename):
     img.thumbnail(size, Image.ANTIALIAS)
 
     #save the result and overwrite the originally uploaded image
-    img.save(filename)
+    img.save(img_path)
