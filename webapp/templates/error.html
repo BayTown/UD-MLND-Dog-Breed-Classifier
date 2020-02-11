@@ -1,0 +1,16 @@
+{% extends 'main_layout.html' %}
+
+{% block content %}
+    <section class="container text-center">
+        <div class="container-fluid">
+            <div class="jumbotron bg-white">
+                <div class="alert alert-danger" role="alert">
+                    I'm so sorry. An error has occurred. Please try again.
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <a href="{{ url_for('index') }}" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Home</a>
+        </div>
+    </section>
+{% endblock%}

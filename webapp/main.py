@@ -86,5 +86,13 @@ def index():
 def neither():
     return render_template('neither.html')
 
+@app.errorhandler(404)
+def not_found_error(error):
+    return render_template('error.html'), 404
+
+@app.errorhandler(500)
+def internal_error(error):
+    return render_template('error.html'), 500
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080, debug=True)
