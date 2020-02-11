@@ -11,11 +11,11 @@ import os
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 UPLOAD_FOLDER = os.path.join(APP_ROOT, 'static', 'uploads')
 
-app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+application = Flask(__name__)
+application.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-@app.route('/', methods=['GET', 'POST'])
-@app.route('/index', methods=['GET', 'POST'])
+@application.route('/', methods=['GET', 'POST'])
+@application.route('/index', methods=['GET', 'POST'])
 def index():
     '''
     Function for route 'index'. If GET then render just the index.html.
@@ -54,7 +54,7 @@ def index():
 
         # Create unique filename and save the file temporary to the static upload folder
         unique_filename = str(uuid.uuid4()) + '_' + file.filename
-        path_filename = os.path.join(app.config['UPLOAD_FOLDER'], unique_filename)
+        path_filename = os.path.join(application.config['UPLOAD_FOLDER'], unique_filename)
         file.save(path_filename)
 
         # Fix orientation of the saved image and save inplace
@@ -99,13 +99,13 @@ def index():
                                               human_dog=human_dog_text)
 
 
-@app.route('/neither')
+@application.route('/neither')
 def neither():
     return render_template('neither.html')
 
-@app.errorhandler(Exception)
+@application.errorhandler(Exception)
 def handle_exception(e):
     return render_template('error.html')
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8080, debug=True)
+    application.run()
