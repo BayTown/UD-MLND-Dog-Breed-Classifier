@@ -1,6 +1,8 @@
 # Web Applicaton built with Flask
 
-[![Website dog-breed-classifier](https://img.shields.io/website-up-down-green-red/http/shields.io.svg)](http://dog-breed-classifier.us-east-1.elasticbeanstalk.com/index)
+[![Website dog-breed-classifier](https://img.shields.io/website-up-down-green-red/http/shields.io.svg?style=flat-square&logo=appveyor)](http://dog-breed-classifier.us-east-1.elasticbeanstalk.com/index)
+[![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg?style=flat-square&logo=appveyor)](https://www.python.org/)
+[![MIT license](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square&logo=appveyor)](https://lbesson.mit-license.org/)
 
 ## Description
 
@@ -9,7 +11,7 @@ In this simple application I provide the trained model for prediction. The end u
 
 The site will be available until __19/02/2020__
 
-![Screenshot Webapp][screenshot]
+![Screenshot Webapp](https://user-images.githubusercontent.com/32474126/74352894-72e32a00-4db9-11ea-8f9d-fd0261802ad9.png)
 
 ## Requirements
 
@@ -47,10 +49,12 @@ PILLOW requires JPEG image codecs which must be available on the operating syste
 Before the requirements are installed within the deployment process you have to tell AWS that you have to install additional packages on the Linux-OS. These installations are done with a file whose name you can choose freely but must have the extension `.config`. The file must be located in the folder `.ebextensions`. In my case I have named the file `01-flask.config`.  
 Here is a part of the file:
 
-    packages:
-     yum:
-      libjpeg-turbo-devel: []
-    libpng-devel: []
+```yaml
+packages:
+ yum:
+  libjpeg-turbo-devel: []
+  libpng-devel: []
+```
 
 Here you must pay attention to the indentation of the lines. There must not be any tabulators. Only spaces.
 
@@ -58,9 +62,11 @@ Here you must pay attention to the indentation of the lines. There must not be a
 
 At the end I still had problems. After deploy the website was not reachable. There was still an entry missing in the .ebextensions/01-flask-config described above:
 
-    container_commands:
-     AddGlobalWSGIGroupAccess:
-      command: "if ! grep -q 'WSGIApplicationGroup %{GLOBAL}' ../wsgi.conf ; then echo 'WSGIApplicationGroup %{GLOBAL}' >> ../wsgi.conf; fi;"
+```yaml
+container_commands:
+ AddGlobalWSGIGroupAccess:
+  command: "if ! grep -q 'WSGIApplicationGroup %{GLOBAL}' ../wsgi.conf ; then echo 'WSGIApplicationGroup %{GLOBAL}' >> ../wsgi.conf; fi;"
+```
 
 After that it worked.
 Here i have more information:
@@ -69,5 +75,3 @@ Here i have more information:
 ## Improvements
 
 The inference could have been designed with a RESTful-API but unfortunately I didn't have the time. This is also a question of cost, because with AWS you need one instance for the inference and one instance for the web server.
-
-[screenshot]: https://github.com/BayTown/UD-MLND-Dog-Breed-Classifier/tree/master/webapp/static/uploads/Screenshot_webapp.png "Screenshot Webapp"
