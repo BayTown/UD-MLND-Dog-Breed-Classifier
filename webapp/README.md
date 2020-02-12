@@ -6,13 +6,13 @@
 
 ## Description
 
-This web application was developed with flask and was trimmed and prepared for deployment from AWS Beanstalk.
-In this simple application I provide the trained model for prediction. The end user can easily upload his picture and it will be forwarded to the result page after the prediction process. On this page the end user is presented with the results and the uploaded image.
+This web application was developed with Flask and optimized for AWS Beanstalk and prepared for use. In this simple application I provide the trained model for the prediction. The user can simply upload an image and it will be forwarded to the result page after the inference/prediction process. On this page the user is shown the results and the uploaded image.
 
 The site will be available until __19/02/2020__  
 [Link to the Webapp](http://dog-breed-classifier.us-east-1.elasticbeanstalk.com/index)  
 
 ![Screenshot Webapp](https://user-images.githubusercontent.com/32474126/74352894-72e32a00-4db9-11ea-8f9d-fd0261802ad9.png)
+![Screenshot_webapp_result](https://user-images.githubusercontent.com/32474126/74354084-21d43580-4dbb-11ea-8209-4e03e9e0ecb4.png)
 
 ## Requirements
 
