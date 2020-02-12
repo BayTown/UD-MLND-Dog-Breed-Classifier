@@ -1,6 +1,6 @@
 # Web Applicaton built with Flask
 
-[![Website shields.io](https://img.shields.io/website-up-down-green-red/http/shields.io.svg)](http://dog-breed-classifier.us-east-1.elasticbeanstalk.com/index)
+[![Website dog-breed-classifier](https://img.shields.io/website-up-down-green-red/http/shields.io.svg)](http://dog-breed-classifier.us-east-1.elasticbeanstalk.com/index)
 
 ## Description
 
