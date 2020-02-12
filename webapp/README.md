@@ -16,7 +16,13 @@ The site will be available until __19/02/2020__
 
 ## Requirements
 
-The requirements can be found in this path in the file `requirements.txt`.
+The requirements for pip can be found in this path in the file `requirements.txt`.
+
+These were extracted from the virtual environment with the following command:
+
+```bash
+$pip freeze > requirements.txt
+```
 
 In the deploy process at AWS Beanstalk these dependencies are automatically installed.
 The only important thing is that this `requirements.txt` is located in the root path.
