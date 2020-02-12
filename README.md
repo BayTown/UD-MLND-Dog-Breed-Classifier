@@ -4,6 +4,8 @@
 [![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg?style=flat-square&logo=appveyor)](https://www.python.org/)
 [![MIT license](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square&logo=appveyor)](https://lbesson.mit-license.org/)
 
+![Screenshot_webapp_result](https://user-images.githubusercontent.com/32474126/74354084-21d43580-4dbb-11ea-8209-4e03e9e0ecb4.png)
+
 ## Project description
 
 In this project I developed a CNN for the recognition of dog breeds.
@@ -58,4 +60,3 @@ You can find the complete webapp and more informations in the folder `webapp`
 The site will be available until __19/02/2020__  
 [Link to the Webapp](http://dog-breed-classifier.us-east-1.elasticbeanstalk.com/index)  
 ![Screenshot Webapp](https://user-images.githubusercontent.com/32474126/74352894-72e32a00-4db9-11ea-8f9d-fd0261802ad9.png)
-![Screenshot_webapp_result](https://user-images.githubusercontent.com/32474126/74354084-21d43580-4dbb-11ea-8209-4e03e9e0ecb4.png)
