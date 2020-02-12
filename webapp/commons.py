@@ -11,8 +11,10 @@ import numpy as np
 def face_detector(img_path):
     '''
     Using a CascadeClassifier from cv2 to check whether or not a face of a person is present in an image.
+
     Args:
         img_path: path to an image
+
     Returns:
         Return true, if a face of a person is present on the image. Else return false
     '''
@@ -28,8 +30,25 @@ def face_detector(img_path):
     # returns true if length of faces is greater than zero
     return len(faces) > 0
 
+def Get_VGG16_model():
+    '''
+    Loads pretrained VGG16 model and returns it
 
-def VGG16_predict(img_path):
+    Args:
+        None
+        
+    Returns:
+        Pretrained VGG16 model
+    '''
+    # Define VGG16 model
+    VGG16 = models.vgg16(pretrained=True)
+    # Set it to eval-mode
+    VGG16.eval()
+
+    return VGG16
+
+
+def VGG16_predict(img_path, VGG16):
     '''
     Use pre-trained VGG-16 model to obtain index corresponding to 
     predicted ImageNet class for image at specified path
@@ -43,10 +62,9 @@ def VGG16_predict(img_path):
     
     ## Load and pre-process an image from the given img_path
     ## Return the *index* of the predicted class for that image
-    
-    # define VGG16 model
-    VGG16 = models.vgg16(pretrained=True)
 
+    # Set device to CPU
+    device = torch.device("cpu")
 
     # Here we define the transformation
     # This is a combination of all image transformations
@@ -55,6 +73,7 @@ def VGG16_predict(img_path):
                                     transforms.ToTensor(),                           # Convert the image to the PyTorch Tensor data type
                                     transforms.Normalize(mean=[0.485, 0.456, 0.406], # Normalizing the image with specific mean and standard deviation
                                                          std=[0.229, 0.224, 0.225])])
+    
     # Load image
     img = Image.open(img_path)
     # Transform image
@@ -63,7 +82,8 @@ def VGG16_predict(img_path):
     img = img.unsqueeze(0)
     # Convert img to a Variable. A PyTorch Variable is a wrapper around a PyTorch Tensor.
     img = Variable(img)
-    
+    # Transform img to CPU-Datatype
+    img = img.to(device)
     # Get the prediction of the model
     prediction = VGG16(img)
     
@@ -73,12 +93,13 @@ def VGG16_predict(img_path):
     return index.item() # predicted class index
 
 
-def dog_detector(img_path):
+def dog_detector(img_path, VGG16):
     '''
     This function uses a pretrained VGG16-model to make a prediction if a dog in an image is present or not
     
     Args:
         img_path: path to an image
+
     Returns:
         Returns "True" if a dog is detected in the image stored at img_path
     '''
@@ -89,7 +110,7 @@ def dog_detector(img_path):
     last_idx_dict = 268
     
     # Get Integer value of the prediction
-    out = VGG16_predict(img_path)
+    out = VGG16_predict(img_path, VGG16)
     
     # True if returned index of out is in the range of the dogs-labels in the dictionary. If not allocation is false.
     dog_present = True if out >= first_idx_dict and out <= last_idx_dict else False
@@ -103,6 +124,7 @@ def get_model():
         
     Args:
         None
+
     Returns:
         Returns the pretrained model with new classifier layers and weights
     '''
@@ -113,31 +135,31 @@ def get_model():
     # Add a fully-connected layer - This will be the last layer
     model_transfer.add_module('fc1', nn.Linear(in_features=1000, out_features=133, bias=True))
 
-    # Freeze training for all parameters
-    #for param in model_transfer.parameters():
-    #    param.requires_grad = False
-
     # Replacing the last 3 layers for fine tuning
     # Parameters of newly constructed modules have requires_grad=True by default
     model_transfer.fc = nn.Linear(2048, 1000, bias=True)
     model_transfer.drop = nn.Dropout(0.3)
     model_transfer.fc1 = nn.Linear(in_features=1000, out_features=133, bias=True)
 
+    # Set device to CPU
+    device = torch.device('cpu')
     # load the trained weights
-    model_transfer.load_state_dict(torch.load('model/model_transfer_resnext101.pt'))
+    model_transfer.load_state_dict(torch.load('model/model_transfer_resnext101.pt', map_location=device))
+    # Put model to evaluation mode
+    model_transfer.eval()
 
     return model_transfer
 
 
-def predict_breed_transfer(img_path):
+def predict_breed_transfer(img_path, model_transfer):
     '''
     A function that takes a path to an image as input
     and returns top-k predictions of the dog breed that is predicted by the model.
         
     Args:
-        img_path: path to an image
-        model:    model for prediction
-        topk:     desired top-k-numbers of predictions
+        img_path:          path to an image
+        model_transfer:    model for prediction
+
     Returns:
         Returns top-k predictions and top-k labels in an array
     '''
@@ -147,7 +169,7 @@ def predict_breed_transfer(img_path):
         class_names = f.read().splitlines()
 
     # Load model
-    model = get_model()
+    model = model_transfer
 
     # Set topk
     topk = 3
@@ -163,8 +185,6 @@ def predict_breed_transfer(img_path):
     
     # Set device to CPU
     device = torch.device("cpu")
-    # Put model to evaluation mode
-    model.eval()
     
     # Load image
     img = Image.open(img_path)
@@ -174,12 +194,10 @@ def predict_breed_transfer(img_path):
     img = img.unsqueeze(0)
     # Convert img to a Variable. A PyTorch Variable is a wrapper around a PyTorch Tensor.
     img = Variable(img)
-    # If cuda then transform img to CUDA-Datatype else CPU-Datatype
+    # Transform img to CPU-Datatype
     img = img.to(device)
     # Get prediction
     prediction = model(img)
-    # Convert prediction to related index
-    index = prediction.data.cpu().numpy().argmax()
     
     # Get Top-k predictions, default is 3
     topk_predictions = torch.topk(prediction, topk)

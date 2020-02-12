@@ -1,11 +1,13 @@
 from flask import Flask, request, render_template, url_for, redirect
-from commons import face_detector, dog_detector, predict_breed_transfer
+from commons import face_detector, dog_detector, predict_breed_transfer, Get_VGG16_model, get_model
 from imagehelper import fix_orientation
 import numpy as np
 import uuid
 from PIL import Image
 import io
 import os
+import sys
+import traceback
 
 # Define path to folder 'uploads' in static files
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
@@ -13,6 +15,40 @@ UPLOAD_FOLDER = os.path.join(APP_ROOT, 'static', 'uploads')
 
 application = Flask(__name__)
 application.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+# Set Allowed file extensions
+application.config["ALLOWED_IMAGE_EXTENSIONS"] = ["JPEG", "JPG", "PNG", "GIF"]
+
+# Set Pytorch Home direcotry path to root. Pytorch is using this path to save pretrained models
+# Prevent permission errors on AWS Beanstalk 
+os.environ['TORCH_HOME'] = './'
+
+# Load models at startup
+VGG16 = Get_VGG16_model()
+model_transfer = get_model()
+
+
+def allowed_image(filename):
+    '''
+    This function checks whether a file is an image.
+    It checks whether the file extension is in the 'ALLOWED_IMAGE_EXTENSIONS' Variable
+    Args:
+        filename: path to an image
+    Returns:
+        Returns if file extension indicates an image, else false.
+    '''
+    # We only want files with a . in the filename
+    if not "." in filename:
+        return False
+
+    # Split the extension from the filename
+    ext = filename.rsplit(".", 1)[1]
+
+    # Check if the extension is in ALLOWED_IMAGE_EXTENSIONS
+    if ext.upper() in application.config["ALLOWED_IMAGE_EXTENSIONS"]:
+        return True
+    else:
+        return False
+
 
 @application.route('/', methods=['GET', 'POST'])
 @application.route('/index', methods=['GET', 'POST'])
@@ -34,23 +70,26 @@ def index():
         return render_template('index.html')
 
     if request.method == 'POST':
-        print(request.files)
 
         # If request.files is empty then reload index-page
         if request.files is None:
-            print('Upload without a selected file')
             return render_template('index.html')
 
         # If parameter 'file' is not in request.files then reload index-page
         if 'file' not in request.files:
-            print('file not uploaded')
             return render_template('index.html')
 
-        # If upload was made without content then reload index-page
+        # Load request content
         file = request.files['file']
+
+        # If upload was made without content then reload index-page
         if file.filename == '':
-            print('no file selected to upload')
             return render_template('index.html')
+
+        # Checks if the filename extension is not allowed
+        if allowed_image(file.filename) == False:
+            return render_template('index.html')
+
 
         # Create unique filename and save the file temporary to the static upload folder
         unique_filename = str(uuid.uuid4()) + '_' + file.filename
@@ -69,23 +108,23 @@ def index():
         human_dog_text = ''
 
         # Detect dog or human
-        if dog_detector(path_filename):
+        if dog_detector(path_filename, VGG16):
             dog_detected = True
             human_dog_text = 'Dog'
-            print('Hello dog! Here are the predictions for your dog breed')
+            #print('Hello dog! Here are the predictions for your dog breed')
         elif face_detector(path_filename):
             human_detected = True
             human_dog_text = 'Human'
-            print('Hello human! If you were a dog, you could look like')
+            #print('Hello human! If you were a dog, you could look like')
         else:
-            print('Oh... No dog or human could be identified.')
+            #print('Oh... No dog or human could be identified.')
             return redirect(url_for('neither'))
 
         # Get and print topk-predictions
         if dog_detected or human_detected:
-            topk_predictions = predict_breed_transfer(path_filename)
-            for k in range(3):
-                print('Top {0:2} prediction:{1:7.2f}% - {2}'.format(k+1, topk_predictions[0][k]*100, topk_predictions[1][k]))
+            topk_predictions = predict_breed_transfer(path_filename, model_transfer)
+            #for k in range(3):
+            #    print('Top {0:2} prediction:{1:7.2f}% - {2}'.format(k+1, topk_predictions[0][k]*100, topk_predictions[1][k]))
 
         # Render template for result with the topk-predictions and labels
         # and also with url of the image and a variable if a human or a dog is present.
@@ -105,7 +144,7 @@ def neither():
 
 @application.errorhandler(Exception)
 def handle_exception(e):
-    return render_template('error.html')
+    return render_template('error.html', etext=e)
 
 if __name__ == '__main__':
-    application.run()
+    application.run(debug=True)
