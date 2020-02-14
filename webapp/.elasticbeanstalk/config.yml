@@ -1,11 +1,11 @@
 branch-defaults:
-  default:
-    environment: null
+  master:
+    environment: DogBreedClassifier-dev
     group_suffix: null
 global:
-  application_name: Dog-Breed-Classifier
+  application_name: DogBreedClassifier
   branch: null
-  default_ec2_keyname: null
+  default_ec2_keyname: aws-eb
   default_platform: Python 3.6
   default_region: us-east-1
   include_git_submodules: true
@@ -14,5 +14,5 @@ global:
   platform_version: null
   profile: eb-cli
   repository: null
-  sc: null
+  sc: git
   workspace_type: Application

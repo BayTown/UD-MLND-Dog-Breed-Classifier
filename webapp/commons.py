@@ -133,13 +133,13 @@ def get_model():
     # Add a Dropout layer
     model_transfer.add_module('drop', nn.Dropout(0.3))
     # Add a fully-connected layer - This will be the last layer
-    model_transfer.add_module('fc1', nn.Linear(in_features=1000, out_features=133, bias=True))
+    model_transfer.add_module('fc1', nn.Linear(in_features=1000, out_features=134, bias=True))
 
     # Replacing the last 3 layers for fine tuning
     # Parameters of newly constructed modules have requires_grad=True by default
     model_transfer.fc = nn.Linear(2048, 1000, bias=True)
     model_transfer.drop = nn.Dropout(0.3)
-    model_transfer.fc1 = nn.Linear(in_features=1000, out_features=133, bias=True)
+    model_transfer.fc1 = nn.Linear(in_features=1000, out_features=134, bias=True)
 
     # Set device to CPU
     device = torch.device('cpu')
