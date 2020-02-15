@@ -1,6 +1,9 @@
 # Exclude folders to prevent all images from being uploaded
 lfw/
-dogImages/
+dogImages/train/*
+dogImages/test/*
+dogImages/valid/*
+!/dogImages/train/134.Miniature_pinscher
 
 # Exclude Jupyter checkpoints
 .ipynb_checkpoints

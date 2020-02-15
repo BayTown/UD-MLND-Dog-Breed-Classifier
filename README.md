@@ -49,6 +49,8 @@ torchvision
 PIL
 ```
 
+When all dependencies are installed, you can start the Jupyter Notebook `dog_app.ipynb` with this evironment and take off.
+
 ## Explanation in depth
 
 ## Webapp
