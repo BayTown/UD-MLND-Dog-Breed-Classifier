@@ -4,6 +4,8 @@ dogImages/train/*
 dogImages/test/*
 dogImages/valid/*
 !/dogImages/train/134.Miniature_pinscher
+!/dogImages/test/134.Miniature_pinscher
+!/dogImages/valid/134.Miniature_pinscher
 
 # Exclude Jupyter checkpoints
 .ipynb_checkpoints
