@@ -53,6 +53,8 @@ When all dependencies are installed, you can start the Jupyter Notebook `dog_app
 
 ## Explanation in depth
 
+If you want to know more about the project then have a look at my project report `report.pdf` and the Juypter Notebook `dog_app.ipynb`.
+
 ## Webapp
 
 This web application was developed with Flask and optimized for AWS Beanstalk and prepared for use. In this simple application I provide the trained model for the prediction. The user can simply upload an image and it will be forwarded to the result page after the inference/prediction process. On this page the user is shown the results and the uploaded image.
