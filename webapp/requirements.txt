@@ -45,4 +45,4 @@ urllib3==2.6.3
 wcwidth==0.1.8
 websocket-client==0.57.0
 Werkzeug==3.1.5
-zipp==2.2.0
+zipp==3.19.1
